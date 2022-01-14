@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 import 'home.dart';
 
-const int _maxImages = 150;
+const int _maxImages = 20;
 const int _limit = 10;
 
 @Injectable()
@@ -19,7 +19,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   final ImagesUseCase _imagesUseCase;
 
-  List<ImageItemResponse> _images = [];
+  final List<ImageItemResponse> _images = [];
+  bool isLoading = false;
 
   var totalImages = -1;
   int offset = 1;
@@ -27,9 +28,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   _onInit(MainEventInit event, Emitter emitter) async => add(const HomeEvent.loadNext());
 
   _loadNext(MainEventLoadNext event, Emitter emitter) async {
-    final a = await _imagesUseCase(limit: _limit, offset: offset);
-    _images.addAll(a);
-    emitter(HomeState.onSuccess(_images));
+    if (isLoading || _images.length >= _maxImages) return;
+
+    isLoading = true;
+    final result = await _imagesUseCase(limit: _limit, offset: offset);
+    _images.addAll(result);
+    emitter(HomeState.onSuccess([..._images]));
+
+    if (_images.length >= _maxImages) emitter(const HomeState.onComplete());
+
     offset += 1;
+    isLoading = false;
   }
 }

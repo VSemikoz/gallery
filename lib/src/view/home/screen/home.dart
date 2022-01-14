@@ -5,9 +5,6 @@ import 'package:gallery/src/view/details/screen/details.dart';
 
 import 'bloc/home.dart';
 
-const double _itemSize = 57;
-const _itemsFromEnd = 7;
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -15,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<HomeBloc, HomeState>(
+        buildWhen: (previous, current) => current is! HomeStateOnComplete,
         builder: (context, state) {
           return SafeArea(
             top: false,
@@ -47,18 +45,25 @@ class _SuccessScreen extends StatefulWidget {
 class _SuccessScreenState extends State<_SuccessScreen> {
   late ScrollController controller;
   late bool isLoading;
+  late bool showProgressBar;
+  late bool isComplete;
+  double? itemSize;
 
   @override
   void initState() {
     controller = ScrollController(keepScrollOffset: false);
     isLoading = false;
+    showProgressBar = false;
+    isComplete = false;
     return super.initState();
   }
 
   bool _onNotification(BuildContext context, ScrollNotification scroll) {
-    print("aboba");
-    if (scroll.metrics.pixels == scroll.metrics.maxScrollExtent) {
-      setState(() => isLoading = true);
+    isLoading = context.read<HomeBloc>().isLoading;
+    final paginationSize = itemSize ?? 100;
+    if (scroll.metrics.pixels >= (scroll.metrics.maxScrollExtent - paginationSize) && !isLoading) {
+      context.read<HomeBloc>().add(const HomeEvent.loadNext());
+      setState(() => showProgressBar = true);
       return true;
     }
     return false;
@@ -66,19 +71,74 @@ class _SuccessScreenState extends State<_SuccessScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (scroll) => _onNotification(context, scroll),
-        child: GridView.builder(
-          controller: controller,
-          padding: EdgeInsets.zero,
-          itemCount: widget.state.images.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-          itemBuilder: (context, index) => _HomeItem(
-            url: widget.state.images[index].largeImageURL ?? "",
+    itemSize ??= MediaQuery.of(context).size.width / 3;
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state is HomeStateOnSuccess) {
+          isLoading = context.read<HomeBloc>().isLoading;
+          setState(() => showProgressBar = false);
+        }if (state is HomeStateOnComplete) {
+          setState(() => isComplete = true);
+        }
+      },
+      child: Expanded(
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (scroll) => _onNotification(context, scroll),
+          child: CustomScrollView(
+            slivers: [
+              SliverGrid(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1,
+                  crossAxisCount: 3,
+                ),
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => _HomeItem(url: widget.state.images[index].largeImageURL ?? ""),
+                  childCount: widget.state.images.length,
+                  addAutomaticKeepAlives: true,
+                  addRepaintBoundaries: true,
+                  addSemanticIndexes: true,
+                ),
+              ),
+              if (showProgressBar && !isComplete) const SliverToBoxAdapter(child: _LoadingIndicator()),
+              if (isComplete) const SliverToBoxAdapter(child: _CompleteIndicator()),
+            ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _CompleteIndicator extends StatelessWidget {
+  const _CompleteIndicator({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Center(child: Text("end of story :(")),
+    );
+  }
+}
+
+class _LoadingIndicator extends StatelessWidget {
+  const _LoadingIndicator({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size.width / 10;
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: size,
+            height: size,
+            child: const CircularProgressIndicator(),
+          ),
+        ),
+      ],
     );
   }
 }

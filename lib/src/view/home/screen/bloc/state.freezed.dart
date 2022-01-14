@@ -31,6 +31,10 @@ class _$HomeStateTearOff {
   HomeStateOnLoading onLoading() {
     return const HomeStateOnLoading();
   }
+
+  HomeStateOnComplete onComplete() {
+    return const HomeStateOnComplete();
+  }
 }
 
 /// @nodoc
@@ -43,6 +47,7 @@ mixin _$HomeState {
     required TResult Function(List<ImageItemResponse> images) onSuccess,
     required TResult Function() onFailure,
     required TResult Function() onLoading,
+    required TResult Function() onComplete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +55,7 @@ mixin _$HomeState {
     TResult Function(List<ImageItemResponse> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
+    TResult Function()? onComplete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +63,7 @@ mixin _$HomeState {
     TResult Function(List<ImageItemResponse> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
+    TResult Function()? onComplete,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -65,6 +72,7 @@ mixin _$HomeState {
     required TResult Function(HomeStateOnSuccess value) onSuccess,
     required TResult Function(HomeStateOnFailure value) onFailure,
     required TResult Function(HomeStateOnLoading value) onLoading,
+    required TResult Function(HomeStateOnComplete value) onComplete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -72,6 +80,7 @@ mixin _$HomeState {
     TResult Function(HomeStateOnSuccess value)? onSuccess,
     TResult Function(HomeStateOnFailure value)? onFailure,
     TResult Function(HomeStateOnLoading value)? onLoading,
+    TResult Function(HomeStateOnComplete value)? onComplete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -79,6 +88,7 @@ mixin _$HomeState {
     TResult Function(HomeStateOnSuccess value)? onSuccess,
     TResult Function(HomeStateOnFailure value)? onFailure,
     TResult Function(HomeStateOnLoading value)? onLoading,
+    TResult Function(HomeStateOnComplete value)? onComplete,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -167,6 +177,7 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
     required TResult Function(List<ImageItemResponse> images) onSuccess,
     required TResult Function() onFailure,
     required TResult Function() onLoading,
+    required TResult Function() onComplete,
   }) {
     return onSuccess(images);
   }
@@ -177,6 +188,7 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
     TResult Function(List<ImageItemResponse> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
+    TResult Function()? onComplete,
   }) {
     return onSuccess?.call(images);
   }
@@ -187,6 +199,7 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
     TResult Function(List<ImageItemResponse> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
+    TResult Function()? onComplete,
     required TResult orElse(),
   }) {
     if (onSuccess != null) {
@@ -201,6 +214,7 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
     required TResult Function(HomeStateOnSuccess value) onSuccess,
     required TResult Function(HomeStateOnFailure value) onFailure,
     required TResult Function(HomeStateOnLoading value) onLoading,
+    required TResult Function(HomeStateOnComplete value) onComplete,
   }) {
     return onSuccess(this);
   }
@@ -211,6 +225,7 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
     TResult Function(HomeStateOnSuccess value)? onSuccess,
     TResult Function(HomeStateOnFailure value)? onFailure,
     TResult Function(HomeStateOnLoading value)? onLoading,
+    TResult Function(HomeStateOnComplete value)? onComplete,
   }) {
     return onSuccess?.call(this);
   }
@@ -221,6 +236,7 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
     TResult Function(HomeStateOnSuccess value)? onSuccess,
     TResult Function(HomeStateOnFailure value)? onFailure,
     TResult Function(HomeStateOnLoading value)? onLoading,
+    TResult Function(HomeStateOnComplete value)? onComplete,
     required TResult orElse(),
   }) {
     if (onSuccess != null) {
@@ -284,6 +300,7 @@ class _$HomeStateOnFailure implements HomeStateOnFailure {
     required TResult Function(List<ImageItemResponse> images) onSuccess,
     required TResult Function() onFailure,
     required TResult Function() onLoading,
+    required TResult Function() onComplete,
   }) {
     return onFailure();
   }
@@ -294,6 +311,7 @@ class _$HomeStateOnFailure implements HomeStateOnFailure {
     TResult Function(List<ImageItemResponse> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
+    TResult Function()? onComplete,
   }) {
     return onFailure?.call();
   }
@@ -304,6 +322,7 @@ class _$HomeStateOnFailure implements HomeStateOnFailure {
     TResult Function(List<ImageItemResponse> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
+    TResult Function()? onComplete,
     required TResult orElse(),
   }) {
     if (onFailure != null) {
@@ -318,6 +337,7 @@ class _$HomeStateOnFailure implements HomeStateOnFailure {
     required TResult Function(HomeStateOnSuccess value) onSuccess,
     required TResult Function(HomeStateOnFailure value) onFailure,
     required TResult Function(HomeStateOnLoading value) onLoading,
+    required TResult Function(HomeStateOnComplete value) onComplete,
   }) {
     return onFailure(this);
   }
@@ -328,6 +348,7 @@ class _$HomeStateOnFailure implements HomeStateOnFailure {
     TResult Function(HomeStateOnSuccess value)? onSuccess,
     TResult Function(HomeStateOnFailure value)? onFailure,
     TResult Function(HomeStateOnLoading value)? onLoading,
+    TResult Function(HomeStateOnComplete value)? onComplete,
   }) {
     return onFailure?.call(this);
   }
@@ -338,6 +359,7 @@ class _$HomeStateOnFailure implements HomeStateOnFailure {
     TResult Function(HomeStateOnSuccess value)? onSuccess,
     TResult Function(HomeStateOnFailure value)? onFailure,
     TResult Function(HomeStateOnLoading value)? onLoading,
+    TResult Function(HomeStateOnComplete value)? onComplete,
     required TResult orElse(),
   }) {
     if (onFailure != null) {
@@ -395,6 +417,7 @@ class _$HomeStateOnLoading implements HomeStateOnLoading {
     required TResult Function(List<ImageItemResponse> images) onSuccess,
     required TResult Function() onFailure,
     required TResult Function() onLoading,
+    required TResult Function() onComplete,
   }) {
     return onLoading();
   }
@@ -405,6 +428,7 @@ class _$HomeStateOnLoading implements HomeStateOnLoading {
     TResult Function(List<ImageItemResponse> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
+    TResult Function()? onComplete,
   }) {
     return onLoading?.call();
   }
@@ -415,6 +439,7 @@ class _$HomeStateOnLoading implements HomeStateOnLoading {
     TResult Function(List<ImageItemResponse> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
+    TResult Function()? onComplete,
     required TResult orElse(),
   }) {
     if (onLoading != null) {
@@ -429,6 +454,7 @@ class _$HomeStateOnLoading implements HomeStateOnLoading {
     required TResult Function(HomeStateOnSuccess value) onSuccess,
     required TResult Function(HomeStateOnFailure value) onFailure,
     required TResult Function(HomeStateOnLoading value) onLoading,
+    required TResult Function(HomeStateOnComplete value) onComplete,
   }) {
     return onLoading(this);
   }
@@ -439,6 +465,7 @@ class _$HomeStateOnLoading implements HomeStateOnLoading {
     TResult Function(HomeStateOnSuccess value)? onSuccess,
     TResult Function(HomeStateOnFailure value)? onFailure,
     TResult Function(HomeStateOnLoading value)? onLoading,
+    TResult Function(HomeStateOnComplete value)? onComplete,
   }) {
     return onLoading?.call(this);
   }
@@ -449,6 +476,7 @@ class _$HomeStateOnLoading implements HomeStateOnLoading {
     TResult Function(HomeStateOnSuccess value)? onSuccess,
     TResult Function(HomeStateOnFailure value)? onFailure,
     TResult Function(HomeStateOnLoading value)? onLoading,
+    TResult Function(HomeStateOnComplete value)? onComplete,
     required TResult orElse(),
   }) {
     if (onLoading != null) {
@@ -460,4 +488,121 @@ class _$HomeStateOnLoading implements HomeStateOnLoading {
 
 abstract class HomeStateOnLoading implements HomeState {
   const factory HomeStateOnLoading() = _$HomeStateOnLoading;
+}
+
+/// @nodoc
+abstract class $HomeStateOnCompleteCopyWith<$Res> {
+  factory $HomeStateOnCompleteCopyWith(
+          HomeStateOnComplete value, $Res Function(HomeStateOnComplete) then) =
+      _$HomeStateOnCompleteCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$HomeStateOnCompleteCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res>
+    implements $HomeStateOnCompleteCopyWith<$Res> {
+  _$HomeStateOnCompleteCopyWithImpl(
+      HomeStateOnComplete _value, $Res Function(HomeStateOnComplete) _then)
+      : super(_value, (v) => _then(v as HomeStateOnComplete));
+
+  @override
+  HomeStateOnComplete get _value => super._value as HomeStateOnComplete;
+}
+
+/// @nodoc
+
+class _$HomeStateOnComplete implements HomeStateOnComplete {
+  const _$HomeStateOnComplete();
+
+  @override
+  String toString() {
+    return 'HomeState.onComplete()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is HomeStateOnComplete);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<ImageItemResponse> images) onSuccess,
+    required TResult Function() onFailure,
+    required TResult Function() onLoading,
+    required TResult Function() onComplete,
+  }) {
+    return onComplete();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function()? onFailure,
+    TResult Function()? onLoading,
+    TResult Function()? onComplete,
+  }) {
+    return onComplete?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function()? onFailure,
+    TResult Function()? onLoading,
+    TResult Function()? onComplete,
+    required TResult orElse(),
+  }) {
+    if (onComplete != null) {
+      return onComplete();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateOnSuccess value) onSuccess,
+    required TResult Function(HomeStateOnFailure value) onFailure,
+    required TResult Function(HomeStateOnLoading value) onLoading,
+    required TResult Function(HomeStateOnComplete value) onComplete,
+  }) {
+    return onComplete(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(HomeStateOnSuccess value)? onSuccess,
+    TResult Function(HomeStateOnFailure value)? onFailure,
+    TResult Function(HomeStateOnLoading value)? onLoading,
+    TResult Function(HomeStateOnComplete value)? onComplete,
+  }) {
+    return onComplete?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateOnSuccess value)? onSuccess,
+    TResult Function(HomeStateOnFailure value)? onFailure,
+    TResult Function(HomeStateOnLoading value)? onLoading,
+    TResult Function(HomeStateOnComplete value)? onComplete,
+    required TResult orElse(),
+  }) {
+    if (onComplete != null) {
+      return onComplete(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class HomeStateOnComplete implements HomeState {
+  const factory HomeStateOnComplete() = _$HomeStateOnComplete;
 }
