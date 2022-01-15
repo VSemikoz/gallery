@@ -180,7 +180,7 @@ class _HomeItem extends StatelessWidget {
           tag: "image$url",
           child: CachedNetworkImage(
             imageUrl: url,
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
             progressIndicatorBuilder: (context, url, downloadProgress) => const _LoadingImage(),
