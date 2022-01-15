@@ -1,9 +1,11 @@
-import 'package:gallery/src/data/models/image.dart';
-import 'package:gallery/src/data/network/api/image.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../domain/models/image/image.dart';
+import '../network/api/image.dart';
+import 'adapter/image.dart';
+
 abstract class ImageRepository {
-  Future<List<ImageItemResponse>> getImages(int limit, int offset);
+  Future<List<ImageItem>> getImages(int limit, int offset);
 }
 
 @Injectable(as: ImageRepository)
@@ -13,7 +15,8 @@ class ImageRepositoryImpl implements ImageRepository {
   ImageRepositoryImpl(this._api);
 
   @override
-  Future<List<ImageItemResponse>> getImages(int limit, int offset) {
-    return _api.getImages(limit, offset);
+  Future<List<ImageItem>> getImages(int limit, int offset) async {
+    final response = await _api.getImages(limit, offset);
+    return response.map((e) => e.getImage()).toList();
   }
 }
