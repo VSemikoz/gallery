@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$HomeStateTearOff {
   const _$HomeStateTearOff();
 
-  HomeStateOnSuccess onSuccess(List<ImageItemResponse> images) {
+  HomeStateOnSuccess onSuccess(List<ImageItem> images) {
     return HomeStateOnSuccess(
       images,
     );
@@ -44,7 +44,7 @@ const $HomeState = _$HomeStateTearOff();
 mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<ImageItemResponse> images) onSuccess,
+    required TResult Function(List<ImageItem> images) onSuccess,
     required TResult Function() onFailure,
     required TResult Function() onLoading,
     required TResult Function() onComplete,
@@ -52,7 +52,7 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function(List<ImageItem> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
     TResult Function()? onComplete,
@@ -60,7 +60,7 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function(List<ImageItem> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
     TResult Function()? onComplete,
@@ -114,7 +114,7 @@ abstract class $HomeStateOnSuccessCopyWith<$Res> {
   factory $HomeStateOnSuccessCopyWith(
           HomeStateOnSuccess value, $Res Function(HomeStateOnSuccess) then) =
       _$HomeStateOnSuccessCopyWithImpl<$Res>;
-  $Res call({List<ImageItemResponse> images});
+  $Res call({List<ImageItem> images});
 }
 
 /// @nodoc
@@ -136,7 +136,7 @@ class _$HomeStateOnSuccessCopyWithImpl<$Res>
       images == freezed
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<ImageItemResponse>,
+              as List<ImageItem>,
     ));
   }
 }
@@ -147,7 +147,7 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
   const _$HomeStateOnSuccess(this.images);
 
   @override
-  final List<ImageItemResponse> images;
+  final List<ImageItem> images;
 
   @override
   String toString() {
@@ -174,7 +174,7 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<ImageItemResponse> images) onSuccess,
+    required TResult Function(List<ImageItem> images) onSuccess,
     required TResult Function() onFailure,
     required TResult Function() onLoading,
     required TResult Function() onComplete,
@@ -185,7 +185,7 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function(List<ImageItem> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
     TResult Function()? onComplete,
@@ -196,7 +196,7 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function(List<ImageItem> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
     TResult Function()? onComplete,
@@ -247,10 +247,10 @@ class _$HomeStateOnSuccess implements HomeStateOnSuccess {
 }
 
 abstract class HomeStateOnSuccess implements HomeState {
-  const factory HomeStateOnSuccess(List<ImageItemResponse> images) =
+  const factory HomeStateOnSuccess(List<ImageItem> images) =
       _$HomeStateOnSuccess;
 
-  List<ImageItemResponse> get images;
+  List<ImageItem> get images;
   @JsonKey(ignore: true)
   $HomeStateOnSuccessCopyWith<HomeStateOnSuccess> get copyWith =>
       throw _privateConstructorUsedError;
@@ -297,7 +297,7 @@ class _$HomeStateOnFailure implements HomeStateOnFailure {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<ImageItemResponse> images) onSuccess,
+    required TResult Function(List<ImageItem> images) onSuccess,
     required TResult Function() onFailure,
     required TResult Function() onLoading,
     required TResult Function() onComplete,
@@ -308,7 +308,7 @@ class _$HomeStateOnFailure implements HomeStateOnFailure {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function(List<ImageItem> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
     TResult Function()? onComplete,
@@ -319,7 +319,7 @@ class _$HomeStateOnFailure implements HomeStateOnFailure {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function(List<ImageItem> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
     TResult Function()? onComplete,
@@ -414,7 +414,7 @@ class _$HomeStateOnLoading implements HomeStateOnLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<ImageItemResponse> images) onSuccess,
+    required TResult Function(List<ImageItem> images) onSuccess,
     required TResult Function() onFailure,
     required TResult Function() onLoading,
     required TResult Function() onComplete,
@@ -425,7 +425,7 @@ class _$HomeStateOnLoading implements HomeStateOnLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function(List<ImageItem> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
     TResult Function()? onComplete,
@@ -436,7 +436,7 @@ class _$HomeStateOnLoading implements HomeStateOnLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function(List<ImageItem> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
     TResult Function()? onComplete,
@@ -531,7 +531,7 @@ class _$HomeStateOnComplete implements HomeStateOnComplete {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<ImageItemResponse> images) onSuccess,
+    required TResult Function(List<ImageItem> images) onSuccess,
     required TResult Function() onFailure,
     required TResult Function() onLoading,
     required TResult Function() onComplete,
@@ -542,7 +542,7 @@ class _$HomeStateOnComplete implements HomeStateOnComplete {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function(List<ImageItem> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
     TResult Function()? onComplete,
@@ -553,7 +553,7 @@ class _$HomeStateOnComplete implements HomeStateOnComplete {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<ImageItemResponse> images)? onSuccess,
+    TResult Function(List<ImageItem> images)? onSuccess,
     TResult Function()? onFailure,
     TResult Function()? onLoading,
     TResult Function()? onComplete,
