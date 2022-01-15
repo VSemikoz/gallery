@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gallery/src/data/models/image.dart';
 import 'package:gallery/src/domain/images.dart';
+import 'package:gallery/src/domain/models/image/image.dart';
 import 'package:injectable/injectable.dart';
 
 import 'home.dart';
 
-const int _maxImages = 20;
+const int _maxImages = 100;
 const int _limit = 10;
 
 @Injectable()
@@ -19,7 +19,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   final ImagesUseCase _imagesUseCase;
 
-  final List<ImageItemResponse> _images = [];
+  final List<ImageItem> _images = [];
   bool isLoading = false;
 
   var totalImages = -1;
@@ -33,11 +33,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     isLoading = true;
     final result = await _imagesUseCase(limit: _limit, offset: offset);
     _images.addAll(result);
-    emitter(HomeState.onSuccess([..._images]));
-
-    if (_images.length >= _maxImages) emitter(const HomeState.onComplete());
-
     offset += 1;
     isLoading = false;
+
+    emitter(HomeState.onSuccess([..._images]));
+    if (_images.length >= _maxImages) emitter(const HomeState.onComplete());
   }
 }

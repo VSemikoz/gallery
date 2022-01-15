@@ -1,9 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gallery/src/view/details/screen/details.dart';
+import 'package:gallery/src/ui/tappable/base.dart';
+import 'package:shimmer/shimmer.dart';
 
+import '../../details/screen/details.dart';
 import 'bloc/home.dart';
+
+const int _defaultPaginationSize = 100;
+const int _itemsInRow = 3;
+const double _appBarHeight = 60;
+const EdgeInsets _defaultPadding = EdgeInsets.all(8.0);
+const double _loadingHeightPercent = 0.1;
+const EdgeInsets _itemPadding = EdgeInsets.all(1);
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -44,7 +53,6 @@ class _SuccessScreen extends StatefulWidget {
 
 class _SuccessScreenState extends State<_SuccessScreen> {
   late ScrollController controller;
-  late bool isLoading;
   late bool showProgressBar;
   late bool isComplete;
   double? itemSize;
@@ -52,15 +60,14 @@ class _SuccessScreenState extends State<_SuccessScreen> {
   @override
   void initState() {
     controller = ScrollController(keepScrollOffset: false);
-    isLoading = false;
     showProgressBar = false;
     isComplete = false;
     return super.initState();
   }
 
   bool _onNotification(BuildContext context, ScrollNotification scroll) {
-    isLoading = context.read<HomeBloc>().isLoading;
-    final paginationSize = itemSize ?? 100;
+    final isLoading = context.read<HomeBloc>().isLoading;
+    final paginationSize = itemSize ?? _defaultPaginationSize;
     if (scroll.metrics.pixels >= (scroll.metrics.maxScrollExtent - paginationSize) && !isLoading) {
       context.read<HomeBloc>().add(const HomeEvent.loadNext());
       setState(() => showProgressBar = true);
@@ -71,13 +78,12 @@ class _SuccessScreenState extends State<_SuccessScreen> {
 
   @override
   Widget build(BuildContext context) {
-    itemSize ??= MediaQuery.of(context).size.width / 3;
+    itemSize ??= MediaQuery.of(context).size.width / _itemsInRow;
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) {
         if (state is HomeStateOnSuccess) {
-          isLoading = context.read<HomeBloc>().isLoading;
           setState(() => showProgressBar = false);
-        }if (state is HomeStateOnComplete) {
+        } else if (state is HomeStateOnComplete) {
           setState(() => isComplete = true);
         }
       },
@@ -87,17 +93,11 @@ class _SuccessScreenState extends State<_SuccessScreen> {
           child: CustomScrollView(
             slivers: [
               SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisSpacing: 1,
-                  mainAxisSpacing: 1,
-                  crossAxisCount: 3,
-                ),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: _itemsInRow),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => _HomeItem(url: widget.state.images[index].largeImageURL ?? ""),
                   childCount: widget.state.images.length,
                   addAutomaticKeepAlives: true,
-                  addRepaintBoundaries: true,
-                  addSemanticIndexes: true,
                 ),
               ),
               if (showProgressBar && !isComplete) const SliverToBoxAdapter(child: _LoadingIndicator()),
@@ -116,7 +116,7 @@ class _CompleteIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: _defaultPadding,
       child: Center(child: Text("end of story :(")),
     );
   }
@@ -127,11 +127,11 @@ class _LoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width / 10;
+    final size = MediaQuery.of(context).size.width * _loadingHeightPercent;
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: _defaultPadding,
           child: SizedBox(
             width: size,
             height: size,
@@ -173,20 +173,35 @@ class _HomeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(1),
+      padding: _itemPadding,
       child: MaterialTapWrapper(
-          onPressed: () => _onImagePressed(context),
+        onPressed: () => _onImagePressed(context),
+        child: Hero(
+          tag: "image$url",
           child: CachedNetworkImage(
             imageUrl: url,
             fit: BoxFit.fitHeight,
             width: double.infinity,
             height: double.infinity,
-            progressIndicatorBuilder: (context, url, downloadProgress) => Container(
-              padding: const EdgeInsets.all(30),
-              color: Colors.grey,
-              child: const CircularProgressIndicator(),
-            ),
-          )),
+            progressIndicatorBuilder: (context, url, downloadProgress) => const _LoadingImage(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LoadingImage extends StatelessWidget {
+  const _LoadingImage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey,
+      highlightColor: Colors.white60,
+      child: Container(
+        color: Colors.white60,
+      ),
     );
   }
 }
@@ -204,7 +219,7 @@ class _HomeAppBar extends StatelessWidget {
           color: Colors.blue,
         ),
         Container(
-          height: 60,
+          height: _appBarHeight,
           width: double.infinity,
           color: Colors.blue,
           child: const Center(child: Text("Gallery")),
@@ -214,43 +229,4 @@ class _HomeAppBar extends StatelessWidget {
   }
 }
 
-const double _opacity = 0.3;
 
-class MaterialTapWrapper extends StatelessWidget {
-  final Widget child;
-  final Function() onPressed;
-  final double? width;
-  final double? height;
-
-  const MaterialTapWrapper({
-    Key? key,
-    required this.child,
-    required this.onPressed,
-    this.width,
-    this.height,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      child: Stack(
-        children: [
-          SizedBox(
-            height: height,
-            width: width,
-            child: Center(child: child),
-          ),
-          Positioned.fill(
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                  onTap: () => onPressed(),
-                  highlightColor: Colors.white.withOpacity(_opacity),
-                  splashColor: Colors.white.withOpacity(_opacity)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

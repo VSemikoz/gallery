@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery/src/ui/tappable/base.dart';
 import 'package:share/share.dart';
-
-import '../../home/screen/home.dart';
 
 class DetailsScreen extends StatelessWidget {
   final String url;
@@ -20,9 +19,14 @@ class DetailsScreen extends StatelessWidget {
         children: [
           Center(
             child: InteractiveViewer(
-              child: CachedNetworkImage(
-                imageUrl: url,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: "image$url",
+                child: CachedNetworkImage(
+                  imageUrl: url,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
@@ -122,8 +126,8 @@ class IconButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 10),
       child: SizedBox(
-        width: width ?? 25,
-        height: height ?? 25,
+        width: width ?? 50,
+        height: height ?? 50,
         child: MaterialTapWrapper(
           onPressed: onPressed,
           child: Icon(icon, color: color ?? Colors.white),
