@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery/src/ui/tappable/base.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../common/resource/dimens/text.dart';
+import '../../../domain/models/image/image.dart';
 import '../../details/screen/details.dart';
 import 'bloc/home.dart';
 
@@ -13,6 +15,10 @@ const double _appBarHeight = 60;
 const EdgeInsets _defaultPadding = EdgeInsets.all(8.0);
 const double _loadingHeightPercent = 0.1;
 const EdgeInsets _itemPadding = EdgeInsets.all(1);
+
+const TextStyle _appBarStyle = TextStyle(fontSize: 24, fontWeight: FontWeight.w500);
+const TextStyle _bottomStyle = TextStyle(fontSize: 24, fontWeight: FontWeight.w500);
+const TextStyle _errorStyle = TextStyle(fontSize: 24, fontWeight: FontWeight.w500);
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -29,11 +35,28 @@ class HomeScreen extends StatelessWidget {
               children: [
                 const _HomeAppBar(),
                 if (state is HomeStateOnSuccess) _SuccessScreen(state: state),
+                if (state is HomeStateOnFailure) const _FailureScreen(),
                 if (state is HomeStateOnLoading) const _LoadingScreen(),
               ],
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _FailureScreen extends StatelessWidget {
+  const _FailureScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Text(
+          TextResources.homeErrorLoading,
+          style: _errorStyle.copyWith(color: Colors.red),
+        ),
       ),
     );
   }
@@ -95,7 +118,7 @@ class _SuccessScreenState extends State<_SuccessScreen> {
               SliverGrid(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: _itemsInRow),
                 delegate: SliverChildBuilderDelegate(
-                  (context, index) => _HomeItem(url: widget.state.images[index].largeImageURL ?? ""),
+                  (context, index) => _HomeItem(imageItem: widget.state.images[index]),
                   childCount: widget.state.images.length,
                   addAutomaticKeepAlives: true,
                 ),
@@ -117,7 +140,7 @@ class _CompleteIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Padding(
       padding: _defaultPadding,
-      child: Center(child: Text("end of story :(")),
+      child: Center(child: Text(TextResources.homeBottomEnd, style: _appBarStyle)),
     );
   }
 }
@@ -160,22 +183,30 @@ class _LoadingScreen extends StatelessWidget {
 }
 
 class _HomeItem extends StatelessWidget {
-  final String url;
+  final ImageItem imageItem;
 
   const _HomeItem({
     Key? key,
-    required this.url,
+    required this.imageItem,
   }) : super(key: key);
 
-  _onImagePressed(BuildContext context) =>
-      Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsScreen(url: url)));
+  _onImagePressed(BuildContext context) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailsScreen(
+            url: imageItem.largeImageURL ?? "",
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
+    final url = imageItem.largeImageURL ?? "";
+    final isReachable = imageItem.isReachable;
     return Padding(
       padding: _itemPadding,
       child: MaterialTapWrapper(
-        onPressed: () => _onImagePressed(context),
+        onPressed: isReachable ? () => _onImagePressed(context) : null,
         child: Hero(
           tag: "image$url",
           child: CachedNetworkImage(
@@ -184,8 +215,24 @@ class _HomeItem extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             progressIndicatorBuilder: (context, url, downloadProgress) => const _LoadingImage(),
+            errorWidget: (c, url, error) => const _FailureImage(),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _FailureImage extends StatelessWidget {
+  const _FailureImage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.grey,
+      child: const Icon(
+        Icons.image_not_supported,
+        color: Colors.red,
       ),
     );
   }
@@ -222,11 +269,14 @@ class _HomeAppBar extends StatelessWidget {
           height: _appBarHeight,
           width: double.infinity,
           color: Colors.blue,
-          child: const Center(child: Text("Gallery")),
+          child: Center(
+            child: Text(
+              TextResources.homeAppBar,
+              style: _bottomStyle.copyWith(color: Colors.white),
+            ),
+          ),
         ),
       ],
     );
   }
 }
-
-
