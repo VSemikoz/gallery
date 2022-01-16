@@ -2,12 +2,12 @@ import '../../../domain/models/image/image.dart';
 import '../../models/image.dart';
 
 extension ImageItemResponseExtension on ImageItemResponse {
-  ImageItem getImage() {
+  ImageItem toImage(bool isReachable) {
     return ImageItem(
       id: id,
-      pageURL: pageURL,
-      previewURL: previewURL,
       largeImageURL: largeImageURL,
+      isReachable: isReachable,
     );
   }
 }
+

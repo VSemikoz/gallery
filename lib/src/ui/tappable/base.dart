@@ -4,7 +4,7 @@ const double _opacity = 0.3;
 
 class MaterialTapWrapper extends StatelessWidget {
   final Widget child;
-  final Function() onPressed;
+  final Function()? onPressed;
   final double? width;
   final double? height;
 
@@ -30,7 +30,7 @@ class MaterialTapWrapper extends StatelessWidget {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                  onTap: () => onPressed(),
+                  onTap: onPressed == null ? null : () => onPressed!(),
                   highlightColor: Colors.white.withOpacity(_opacity),
                   splashColor: Colors.white.withOpacity(_opacity)),
             ),
